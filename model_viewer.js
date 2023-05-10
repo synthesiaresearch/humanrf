@@ -193,7 +193,6 @@ let canvas, camera, scene, renderer, object, loader, material;
 function create_avatar_scene(canvas_id, object_file) {
     
     canvas = document.getElementById(canvas_id);
-    // canvas = document.getElementById("model_viewer");
     scene = new THREE.Scene();
     scene.background = new THREE.Color( 0xa0a0a0 );
     scene.fog = new THREE.Fog( 0xa0a0a0, 2, 90 );
@@ -204,12 +203,9 @@ function create_avatar_scene(canvas_id, object_file) {
     
     renderer = new THREE.WebGLRenderer( { canvas: canvas } );
     
-    // renderer.setClearColor( 0x000000, 0 );
     renderer.setClearColor( 0x000000);
     renderer.setPixelRatio( window.devicePixelRatio );
     renderer.setSize( canvas.offsetWidth, canvas.offsetHeight );
-    // renderer.autoClear = false;
-    // renderer.setSize( window.innerWidth, window.innerHeight );
     
     const ambientLight = new THREE.AmbientLight( 0xcccccc, 0 );
     scene.add( ambientLight );
@@ -228,7 +224,6 @@ function create_avatar_scene(canvas_id, object_file) {
     controls.update();
     controls.enablePan = false;
     controls.enableDamping = true;
-    // controls.enableZoom = false;
     controls.autoRotate = true;
 
     function add_camera(cam_transform) {
@@ -248,11 +243,6 @@ function create_avatar_scene(canvas_id, object_file) {
     }
 
     material = new THREE.MeshNormalMaterial()
-    // alternative materials:
-    // const material = new THREE.MeshPhongMaterial()
-    // const material = new THREE.MeshMatcapMaterial()
-    // const material = new THREE.MeshDepthMaterial()
-
     const loading_manager = new THREE.LoadingManager(  );
 
     loader = new THREE.OBJLoader(loading_manager);
@@ -284,7 +274,6 @@ function load_object(actor_index){
             objects[actor_index] = obj;
             const scale = 10;
             obj.scale.set(scale, scale, scale);
-            // object.position.y = - 95;
             obj.traverse( function ( child ) {
                 if ( child.isMesh ) child.material = material;
             } );
@@ -297,6 +286,5 @@ function load_object(actor_index){
     for (let i = 1; i <= 8; i++) {
         document.getElementById(`actor_button${i}`).style.background="white";
     }
-    
     document.getElementById(`actor_button${actor_index + 1}`).style.background="lightgray";
 }

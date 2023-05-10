@@ -1,371 +1,400 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>HumanRF: High-Fidelity Neural Radiance Fields for Humans in Motion</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mulish:400,700">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
-    <script src="https://unpkg.com/three@0.112.0/build/three.js"></script>
-    <script src="https://unpkg.com/three@0.112.0/examples/js/loaders/OBJLoader.js"></script>
-    <script src="https://unpkg.com/three@0.112.0/examples/js/controls/OrbitControls.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css" rel="stylesheet">
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <style>
-        .dark {
-            background-color: #000000;
-            color: #f1f1f1;
-            font-family: "Mulish", "Helvetica Neue", "Helvetica" , "Arial", sans-serif;
-        }
-        .shadow {
-            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-        }
-        a.navbar-item.is-active {
-            background-color: #000000;
-            color: #f1f1f1;
-        }
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HumanRF: High-Fidelity Neural Radiance Fields for Humans in Motion</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mulish:400,700">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-        * {box-sizing: border-box;}
+  <script src="https://unpkg.com/three@0.112.0/build/three.js"></script>
+  <script src="https://unpkg.com/three@0.112.0/examples/js/loaders/OBJLoader.js"></script>
+  <script src="https://unpkg.com/three@0.112.0/examples/js/controls/OrbitControls.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    .dark {
+      background-color: #000000;
+      color: #f1f1f1;
+      font-family: "Mulish", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+    }
+
+    .shadow {
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+
+    a.navbar-item.is-active {
+      background-color: #000000;
+      color: #f1f1f1;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
 
     .img-zoom-container {
-    position: relative;
-    float: right;
+      position: relative;
+      float: right;
     }
 
     .img-zoom-lens {
-    position: absolute;
-    border: 2px solid #ff2020;
-    width: 40px;
-    height: 40px;
+      position: absolute;
+      border: 2px solid #ff2020;
+      width: 40px;
+      height: 40px;
     }
 
     .img-zoom-result {
-    border: 2px solid #ff2020;
-    width: 300px;
-    height: 300px;
+      border: 2px solid #ff2020;
+      width: 300px;
+      height: 300px;
     }
-    </style>
-    <script type="text/javascript" src="image_zoom.js"></script>
-    <script type="text/javascript" src="model_viewer.js"></script>
-    <script>
-      document.addEventListener( 'DOMContentLoaded', function() {
-        var splide = new Splide( '.splide' );
-        splide.mount();
+  </style>
+  <script type="text/javascript" src="image_zoom.js"></script>
+  <script type="text/javascript" src="model_viewer.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var splide = new Splide('.splide');
+      splide.mount();
 
-        imageZoom("dataset_example_1", "dataset_example_1_zoom", 180, 80);
-        imageZoom("dataset_example_2", "dataset_example_2_zoom", 180, 80);
+      imageZoom("dataset_example_1", "dataset_example_1_zoom", 180, 80);
+      imageZoom("dataset_example_2", "dataset_example_2_zoom", 180, 80);
 
-        create_avatar_scene("model_viewer");
-        load_object(0);
-      } );
-    </script>
-  </head>
-  <body>
+      create_avatar_scene("model_viewer");
+      load_object(0);
+    });
+  </script>
+</head>
 
-    <nav class="navbar dark">
-        <div class="container">
-          <div class="navbar-brand">
-            <span class="navbar-burger" data-target="navbarMenuHeroB">
-              <span></span>
-              <span></span>
-              <span></span>
-            </span>
-          </div>
-          <div id="navbarMenuHeroB" class="navbar-menu">
-            <div class="navbar-end">
-              <!-- <a href="http://actors-hq.com/" class="navbar-item">
+<body>
+
+  <nav class="navbar dark">
+    <div class="container">
+      <div class="navbar-brand">
+        <span class="navbar-burger" data-target="navbarMenuHeroB">
+          <span></span>
+          <span></span>
+          <span></span>
+        </span>
+      </div>
+      <div id="navbarMenuHeroB" class="navbar-menu">
+        <div class="navbar-end">
+          <!-- <a href="http://actors-hq.com/" class="navbar-item">
                 Dataset and challenge
               </a> -->
-              <span class="navbar-item">
-                <a href="https://github.com/synthesiaresearch/humanrf" class="button is-info is-inverted">
-                  <span class="icon">
-                    <i class="fab fa-github"></i>
-                  </span>
-                  <span>Code (available soon)</span>
-                </a>
+          <span class="navbar-item">
+            <a href="https://github.com/synthesiaresearch/humanrf" class="button is-info is-inverted">
+              <span class="icon">
+                <i class="fab fa-github"></i>
               </span>
-            </div>
-          </div>
+              <span>Code (available soon)</span>
+            </a>
+          </span>
         </div>
-      </nav>
-
+      </div>
+    </div>
+  </nav>
 
   <section class="section shadow dark" id="header">
-    
+
     <div class="container">
       <h1 class="title dark">
         <strong>HumanRF:</strong>
         <br />High-Fidelity Neural Radiance Fields for Humans in Motion
       </h1>
-
-      Mustafa Işık¹, Martin Rünz¹, Markos Georgopoulos¹, Taras Khakhulin¹, Jonathan Starck¹, Lourdes Agapito², Matthias Nießner³
+      Mustafa Işık¹, Martin Rünz¹, Markos Georgopoulos¹, Taras Khakhulin¹, Jonathan Starck¹, Lourdes Agapito², Matthias
+      Nießner³
       <br />
       ¹ Synthesia,
       ² University College London,
       ³ Technical University of Munich
 
-        <section class="splide">
-          
-          <div class="container splide__track">
-            <ul class="splide__list">
+      <section class="splide">
 
-              <li class="splide__slide">
-                <div class="columns is-centered">
+        <div class="container splide__track">
+          <ul class="splide__list">
+
+            <li class="splide__slide">
+              <div class="columns is-centered">
                 <div class="column is-two-fifths">
-                <video autoplay loop muted playsinline height="100%">
+                  <video autoplay loop muted playsinline height="100%">
                     <source src="./assets/A1S1_trimmed.mp4" type="video/mp4">
-                </video>
+                  </video>
                 </div>
                 <div class="column is-two-fifths">
-                <video autoplay loop muted playsinline height="100%">
-                  <source src="./assets/A2S2_trimmed.mp4" type="video/mp4">
-                </video>
+                  <video autoplay loop muted playsinline height="100%">
+                    <source src="./assets/A2S2_trimmed.mp4" type="video/mp4">
+                  </video>
                 </div>
-                </div>
-              </li>
+              </div>
+            </li>
 
-              <li class="splide__slide">
-                <div class="columns is-centered">
+            <li class="splide__slide">
+              <div class="columns is-centered">
                 <div class="column is-two-fifths">
-                <video autoplay loop muted playsinline height="100%">
+                  <video autoplay loop muted playsinline height="100%">
                     <source src="./assets/A3S1_trimmed.mp4" type="video/mp4">
-                </video>
+                  </video>
                 </div>
                 <div class="column is-two-fifths">
-                <video autoplay loop muted playsinline height="100%">
-                  <source src="./assets/A4S2_trimmed.mp4" type="video/mp4">
-                </video>
+                  <video autoplay loop muted playsinline height="100%">
+                    <source src="./assets/A4S2_trimmed.mp4" type="video/mp4">
+                  </video>
                 </div>
-                </div>
-              </li>
+              </div>
+            </li>
 
-              <li class="splide__slide">
-                <div class="columns is-centered">
+            <li class="splide__slide">
+              <div class="columns is-centered">
                 <div class="column is-two-fifths">
-                <video autoplay loop muted playsinline height="100%">
+                  <video autoplay loop muted playsinline height="100%">
                     <source src="./assets/A5S1_trimmed.mp4" type="video/mp4">
-                </video>
+                  </video>
                 </div>
                 <div class="column is-two-fifths">
-                <video autoplay loop muted playsinline height="100%">
-                  <source src="./assets/A6S2_trimmed.mp4" type="video/mp4">
-                </video>
+                  <video autoplay loop muted playsinline height="100%">
+                    <source src="./assets/A6S2_trimmed.mp4" type="video/mp4">
+                  </video>
                 </div>
-                </div>
-              </li>
+              </div>
+            </li>
 
-              <li class="splide__slide">
-                <div class="columns is-centered">
+            <li class="splide__slide">
+              <div class="columns is-centered">
                 <div class="column is-two-fifths">
-                <video autoplay loop muted playsinline height="100%">
+                  <video autoplay loop muted playsinline height="100%">
                     <source src="./assets/A7S1_trimmed.mp4" type="video/mp4">
-                </video>
+                  </video>
                 </div>
                 <div class="column is-two-fifths">
-                <video autoplay loop muted playsinline height="100%">
-                  <source src="./assets/A8S2_trimmed.mp4" type="video/mp4">
-                </video>
+                  <video autoplay loop muted playsinline height="100%">
+                    <source src="./assets/A8S2_trimmed.mp4" type="video/mp4">
+                  </video>
                 </div>
-                </div>
-              </li>
+              </div>
+            </li>
 
           </ul>
-          </div>
-        </section>
+        </div>
+      </section>
     </div>
   </section>
-  
-  <section class="section">
-    <div class="container is-max-desktop">
-    <h2 class="title has-text-centered">Abstract</h2>
-    <p class="has-text-justified">
-    Representing human performance at high-fidelity is an essential building block in diverse applications, such as film production, computer games or videoconferencing. To close the gap to production-level quality, we introduce <a href="http://www.synthesiaresearch.github.io/humanrf" target="_blank">HumanRF</a>, a 4D dynamic neural scene representation that captures full-body appearance in motion from multi-view video input, and enables playback from novel, unseen viewpoints. Our novel representation acts as a dynamic video encoding that captures fine details at high compression rates by factorizing space-time into a temporal matrix-vector decomposition. This allows us to obtain temporally coherent reconstructions of human actors for long sequences, while representing high-resolution details even in the context of challenging motion.
-    <br /><br />
-    While most research focuses on synthesizing at resolutions of 4MP or lower, we address the challenge of operating at 12MP. To this end, we introduce <a href="http://www.actors-hq.com" target="_blank">ActorsHQ</a>, a novel multi-view dataset that provides 12MP footage from 160 cameras for 16 sequences with high-fidelity, per-frame mesh reconstructions. We demonstrate challenges that emerge from using such high-resolution data and show that our newly introduced HumanRF effectively leverages this data, making a significant step towards production-level quality novel view synthesis.
-    </p>
-    </div>
-  </section>
-  <section class="section">
-    <div class="container is-max-desktop">
-    <h2 class="title has-text-centered">Video</h2>
-    <iframe width="888" height="500" src="https://www.youtube.com/embed/OTnhiLLE7io" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-    </div>
-  </section>
-  <section class="section">
-    <div class="container is-max-desktop">
-    <h2 class="title has-text-centered">Numerical Results</h2>
 
+  <section class="section">
+    <div class="container is-max-desktop">
+      <h2 class="title has-text-centered">Abstract</h2>
+      <p class="has-text-justified">
+        Representing human performance at high-fidelity is an essential building block in diverse applications, such as
+        film production, computer games or videoconferencing. To close the gap to production-level quality, we introduce
+        <a href="http://www.synthesiaresearch.github.io/humanrf" target="_blank">HumanRF</a>, a 4D dynamic neural scene
+        representation that captures full-body appearance in motion from multi-view video input, and enables playback
+        from novel, unseen viewpoints. Our novel representation acts as a dynamic video encoding that captures fine
+        details at high compression rates by factorizing space-time into a temporal matrix-vector decomposition. This
+        allows us to obtain temporally coherent reconstructions of human actors for long sequences, while representing
+        high-resolution details even in the context of challenging motion.
+        <br /><br />
+        While most research focuses on synthesizing at resolutions of 4MP or lower, we address the challenge of
+        operating at 12MP. To this end, we introduce <a href="http://www.actors-hq.com" target="_blank">ActorsHQ</a>, a
+        novel multi-view dataset that provides 12MP footage from 160 cameras for 16 sequences with high-fidelity,
+        per-frame mesh reconstructions. We demonstrate challenges that emerge from using such high-resolution data and
+        show that our newly introduced HumanRF effectively leverages this data, making a significant step towards
+        production-level quality novel view synthesis.
+      </p>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container is-max-desktop">
+      <h2 class="title has-text-centered">Video</h2>
+      <iframe width="888" height="500" src="https://www.youtube.com/embed/OTnhiLLE7io" title="YouTube video player"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen></iframe>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container is-max-desktop">
+      <h2 class="title has-text-centered">Numerical Results</h2>
 
-    <div>
+      <div>
         <canvas id="myChart"></canvas>
       </div>
-    <script>
+      <script>
         const ctx = document.getElementById('myChart');
 
         new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: [20, 50, 100, 250, 500, 1000],
-                datasets: [
-                    {
-                        label: 'HumanRF',
-                        data: [30.30, 30.05, 29.83, 29.26, 29.34, 29.05],
-                        // borderColor: 'rgb(255, 99, 132)',
-                        borderWidth: 1
-                    },
-                    {
-                        label: "Instant-NGP",
-                        data: [29.45, 28.78, 28.96, 28.77, 28.73, 28.85],
-                        borderWidth: 1
-                    },
-                    {
-                        label: "TiNeuVox",
-                        data: [26.07, 24.14, 23.11, 21.82, 20.94, 19.80],
-                        borderWidth: 1
-                    },
-                    {
-                        label: "NDVG",
-                        data: [26.60, 23.65, 22.16, 19.75, 17.93, 16.17],
-                        borderWidth: 1
-                    },
-                    {
-                        label: "HyperNeRF",
-                        data: [25.70, 25.23, 24.72, 23.82, 22.58, 21.77],
-                        borderWidth: 1
-                    },
-                    {
-                        label: "NeuralBody",
-                        data: [27.03, 25.16, 26.92, 24.66, 24.35, 25.58],
-                        borderWidth: 1
-                    },
-                    {
-                        label: "TAVA",
-                        data: [27.44, 25.75, 25.05, 23.61, 22.40, 21.50],
-                        borderWidth: 1
-                    }
-                ]
+          type: 'line',
+          data: {
+            labels: [20, 50, 100, 250, 500, 1000],
+            datasets: [
+              {
+                label: 'HumanRF',
+                data: [30.30, 30.05, 29.83, 29.26, 29.34, 29.05],
+                // borderColor: 'rgb(255, 99, 132)',
+                borderWidth: 1
+              },
+              {
+                label: "Instant-NGP",
+                data: [29.45, 28.78, 28.96, 28.77, 28.73, 28.85],
+                borderWidth: 1
+              },
+              {
+                label: "TiNeuVox",
+                data: [26.07, 24.14, 23.11, 21.82, 20.94, 19.80],
+                borderWidth: 1
+              },
+              {
+                label: "NDVG",
+                data: [26.60, 23.65, 22.16, 19.75, 17.93, 16.17],
+                borderWidth: 1
+              },
+              {
+                label: "HyperNeRF",
+                data: [25.70, 25.23, 24.72, 23.82, 22.58, 21.77],
+                borderWidth: 1
+              },
+              {
+                label: "NeuralBody",
+                data: [27.03, 25.16, 26.92, 24.66, 24.35, 25.58],
+                borderWidth: 1
+              },
+              {
+                label: "TAVA",
+                data: [27.44, 25.75, 25.05, 23.61, 22.40, 21.50],
+                borderWidth: 1
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            interaction: {
+              mode: 'index',
+              intersect: false,
             },
-            options: {
-                responsive: true,
-                interaction: {
-                mode: 'index',
-                intersect: false,
-                },
-                stacked: false,
-                plugins: {
-                    // title: {
-                    //     display: true,
-                    //     text: 'Chart.js Line Chart - Multi Axis'
-                    // }
-                },
-                scales: {
-                    y: {
-                        type: 'linear',
-                        display: true,
-                        position: 'left',
-                        title: {
-                            display: true,
-                            text: 'PSNR',
-                        }
-                    },
-                    x: {
-                        type: 'linear',
-                        display: true,
-                        title: {
-                            display: true,
-                            text: 'Number of frames',
-                        }
-                    },
+            stacked: false,
+            plugins: {
+            },
+            scales: {
+              y: {
+                type: 'linear',
+                display: true,
+                position: 'left',
+                title: {
+                  display: true,
+                  text: 'PSNR',
                 }
-            },
+              },
+              x: {
+                type: 'linear',
+                display: true,
+                title: {
+                  display: true,
+                  text: 'Number of frames',
+                }
+              },
+            }
+          },
 
         });
       </script>
 
-    
+
   </section>
 
 
   <section class="section">
     <div class="container is-max-desktop">
-    <h2 class="title has-text-centered">Temporal Stability</h2>
-    <video controls width="100%">
+      <h2 class="title has-text-centered">Temporal Stability</h2>
+      <video controls width="100%">
         <source src="./assets/temporal_stability.mp4" type="video/mp4">
-    </video>
+      </video>
     </div>
   </section>
 
   <section class="section">
     <div class="container is-max-desktop">
-    <h2 class="title has-text-centered">Method</h2>
-    <p class="has-text-justified">
-      Given a set of input videos of a human actor in motion, captured in a multi-view camera setting, our goal is to enable temporally consistent, high-fidelity novel view synthesis. To that end, we learn a 4D scene representation using differentiable volumetric rendering, supervised via multi-view 2D photometric and mask losses that minimize the discrepancy between the rendered images and the set of input RGB images and foreground masks. To enable efficient photo-realistic neural rendering of arbitrarily long multi-view data, we use sparse feature hash-grids in combination with shallow multilayer perceptrons (MLPs).
-    </p>
-    <br />
-    <img src="./assets/method.png" width="100%" />
-    <br />
-    <p class="has-text-justified">
+      <h2 class="title has-text-centered">Method</h2>
+      <p class="has-text-justified">
+        Given a set of input videos of a human actor in motion, captured in a multi-view camera setting, our goal is to
+        enable temporally consistent, high-fidelity novel view synthesis. To that end, we learn a 4D scene
+        representation using differentiable volumetric rendering, supervised via multi-view 2D photometric and mask
+        losses that minimize the discrepancy between the rendered images and the set of input RGB images and foreground
+        masks. To enable efficient photo-realistic neural rendering of arbitrarily long multi-view data, we use sparse
+        feature hash-grids in combination with shallow multilayer perceptrons (MLPs).
+      </p>
+      <br />
+      <img src="./assets/method.png" width="100%" />
+      <br />
+      <p class="has-text-justified">
         <br />
-        As illustrated in the figure above, the core idea of HumanRF is to partition the time domain into optimally distributed temporal segments, and to represent each segment by a compact 4D feature grid. For this purpose, we extend the TensoRF vector-matrix decomposition (designed for static 3D scenes) to support time-varying 4D feature grids.
-    </p>
+        As illustrated in the figure above, the core idea of HumanRF is to partition the time domain into optimally
+        distributed temporal segments, and to represent each segment by a compact 4D feature grid. For this purpose, we
+        extend the TensoRF vector-matrix decomposition (designed for static 3D scenes) to support time-varying 4D
+        feature grids.
+      </p>
     </div>
-  </div>
+    </div>
   </section>
   <section class="section">
     <div class="container is-max-desktop">
-    <h2 class="title has-text-centered">Dataset</h2>
-    <p class="has-text-justified">
-        Our dataset, ActorsHQ, consists of 39, 765 frames of dynamic human motion captured using multi-view video. We used a proprietary multi-camera capture system combined with an LED array
+      <h2 class="title has-text-centered">Dataset</h2>
+      <p class="has-text-justified">
+        Our dataset, ActorsHQ, consists of 39, 765 frames of dynamic human motion captured using multi-view video. We
+        used a proprietary multi-camera capture system combined with an LED array
         for global illumination. The camera system comprises 160 12MP
-        Ximea cameras operating at 25fps. Close-up details that are captured at this resolution are highlighted in the figures below. The lighting system provides a programmable lighting array of 420 LEDs that are
+        Ximea cameras operating at 25fps. Close-up details that are captured at this resolution are highlighted in the
+        figures below. The lighting system provides a programmable lighting array of 420 LEDs that are
         time-synchronized to the camera shutter. All cameras were set to a
-        shutter speed of 650us to minimize motion blur for fast actions. 
-    </p><br />
-    <div class="columns is-centered">
+        shutter speed of 650us to minimize motion blur for fast actions.
+      </p><br />
+      <div class="columns is-centered">
         <div class="column is-half">
-            <div class="img-zoom-container">
-                <img id="dataset_example_1" src="assets/a1s1_details.jpg" width="300" height="240" alt="dataset example 1">
-                
-            </div>
-        </div>
-        <div class="column is-half">
-            <div id="dataset_example_1_zoom" class="img-zoom-result"></div>
-        </div>
-    </div>
+          <div class="img-zoom-container">
+            <img id="dataset_example_1" src="assets/a1s1_details.jpg" width="300" height="240" alt="dataset example 1">
 
-    <div class="columns is-centered">
-        <div class="column is-half">
-            <div class="img-zoom-container">
-                <img id="dataset_example_2" src="assets/a4s2_details.jpg" width="300" height="240" alt="dataset example 2">
-                
-            </div>
+          </div>
         </div>
         <div class="column is-half">
-            <div id="dataset_example_2_zoom" class="img-zoom-result"></div>
+          <div id="dataset_example_1_zoom" class="img-zoom-result"></div>
         </div>
-    </div>
-    <p><div><canvas id="model_viewer" style="border:#000000;border-radius: 10px; width:100%; height: 400px; border-width: 1px;"></canvas></div></p>
-    <div class="buttons has-addons is-centered">
-      <button id="actor_button1" class="button" onclick="load_object(0);">Actor 1</button>
-      <button id="actor_button2" class="button" onclick="load_object(1);">Actor 2</button>
-      <button id="actor_button3" class="button" onclick="load_object(2);">Actor 3</button>
-      <button id="actor_button4" class="button" onclick="load_object(3);">Actor 4</button>
-      <button id="actor_button5" class="button" onclick="load_object(4);">Actor 5</button>
-      <button id="actor_button6" class="button" onclick="load_object(5);">Actor 6</button>
-      <button id="actor_button7" class="button" onclick="load_object(6);">Actor 7</button>
-      <button id="actor_button8" class="button" onclick="load_object(7);">Actor 8</button>
-    </div>
-    
+      </div>
+
+      <div class="columns is-centered">
+        <div class="column is-half">
+          <div class="img-zoom-container">
+            <img id="dataset_example_2" src="assets/a4s2_details.jpg" width="300" height="240" alt="dataset example 2">
+
+          </div>
+        </div>
+        <div class="column is-half">
+          <div id="dataset_example_2_zoom" class="img-zoom-result"></div>
+        </div>
+      </div>
+      <p>
+      <div><canvas id="model_viewer"
+          style="border:#000000;border-radius: 10px; width:100%; height: 400px; border-width: 1px;"></canvas></div>
+      </p>
+      <div class="buttons has-addons is-centered">
+        <button id="actor_button1" class="button" onclick="load_object(0);">Actor 1</button>
+        <button id="actor_button2" class="button" onclick="load_object(1);">Actor 2</button>
+        <button id="actor_button3" class="button" onclick="load_object(2);">Actor 3</button>
+        <button id="actor_button4" class="button" onclick="load_object(3);">Actor 4</button>
+        <button id="actor_button5" class="button" onclick="load_object(4);">Actor 5</button>
+        <button id="actor_button6" class="button" onclick="load_object(5);">Actor 6</button>
+        <button id="actor_button7" class="button" onclick="load_object(6);">Actor 7</button>
+        <button id="actor_button8" class="button" onclick="load_object(7);">Actor 8</button>
+      </div>
+
     </div>
   </section>
   <section class="section">
     <div class="container is-max-desktop">
-    <h2 class="title has-text-centered">Bibtex</h2>
-<pre>
+      <h2 class="title has-text-centered">Bibtex</h2>
+      <pre>
 <code>
 @article{isik2023humanrf,
   title = {HumanRF: High-Fidelity Neural Radiance Fields for Humans in Motion},
@@ -384,5 +413,6 @@
 </pre>
     </div>
   </section>
-  </body>
+</body>
+
 </html>
