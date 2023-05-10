@@ -225,6 +225,8 @@ function create_avatar_scene(canvas_id, object_file) {
     controls.enablePan = false;
     controls.enableDamping = true;
     controls.autoRotate = true;
+    controls.minDistance = 2.0;
+    controls.maxDistance = 30.0;
 
     function add_camera(cam_transform) {
         const matrix = new THREE.Matrix4();
