@@ -1,0 +1,21 @@
+[tool.black]
+line-length = 120
+skip-string-normalization = true
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.git
+  | \.hg
+  | \.mypy_cache
+  | build
+  | dist
+)/
+'''
+
+[tool.isort]
+profile = "black"
+line_length = 120
+use_parentheses = true
+include_trailing_comma = true
+multi_line_output = 3
+known_first_party = ["actorshq", "humanrf"]
