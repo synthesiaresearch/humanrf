@@ -12,6 +12,7 @@ Mustafa Işık, Martin Rünz, Markos Georgopoulos, Taras Khakhulin, Jonathan Sta
 git clone --depth=1 --recursive https://github.com/synthesiaresearch/humanrf
 
 pip install -r requirements.txt
+pip install git+https://github.com/NVlabs/tiny-cuda-nn/#subdirectory=bindings/torch
 
 # Install ActorsHQ package (dataset and data loader)
 cd actorshq
