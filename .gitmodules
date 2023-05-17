@@ -1,0 +1,9 @@
+[submodule "actorshq/toolbox/mesh_tools/third_party/alembic"]
+	path = actorshq/toolbox/mesh_tools/third_party/alembic
+	url = https://github.com/alembic/alembic
+[submodule "actorshq/toolbox/mesh_tools/third_party/CLI11"]
+	path = actorshq/toolbox/mesh_tools/third_party/CLI11
+	url = https://github.com/CLIUtils/CLI11
+[submodule "actorshq/toolbox/mesh_tools/third_party/Pangolin"]
+	path = actorshq/toolbox/mesh_tools/third_party/Pangolin
+	url = https://github.com/stevenlovegrove/Pangolin
