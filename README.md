@@ -11,6 +11,10 @@ Mustafa Işık, Martin Rünz, Markos Georgopoulos, Taras Khakhulin, Jonathan Sta
 
 git clone --depth=1 --recursive https://github.com/synthesiaresearch/humanrf
 
+# Install GLM
+sudo apt-get install libglm-dev
+
+# Install required packages and Tiny CUDA NN.
 pip install -r requirements.txt
 pip install git+https://github.com/NVlabs/tiny-cuda-nn/#subdirectory=bindings/torch
 
