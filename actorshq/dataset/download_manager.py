@@ -13,6 +13,40 @@ from tqdm import tqdm
 from actorshq.dataset.volumetric_dataset import VolumetricDataset, VolumetricDatasetFilepaths
 
 
+NUM_FRAMES_PER_ACTOR = {
+    "Actor01": {
+        "Sequence1":2214,
+        "Sequence2":2225,
+    },
+    "Actor02": {
+        "Sequence1":2157,
+        "Sequence2":2489,
+    },
+    "Actor03": {
+        "Sequence1":2109,
+    },
+    "Actor04": {
+        "Sequence1":2315,
+        "Sequence2":2100,
+    },
+    "Actor05": {
+        "Sequence1":2338,
+        "Sequence2":2312,
+    },
+    "Actor06": {
+        "Sequence1":2379,
+        "Sequence2":2470,
+    },
+    "Actor07": {
+        "Sequence1":2139,
+    },
+    "Actor08": {
+        "Sequence1":2374,
+        "Sequence2":1610,
+    }
+}
+
+
 def read_yaml(file_path: Path):
     with open(file_path, "r", encoding="UTF-8") as file:
         return yaml.safe_load(file)
@@ -118,8 +152,10 @@ def download_dataset(
     print("Reading links ...")
     links = read_yaml(dataset_file)
 
-    download_lazy(links[actor][sequence]["scene"], dataset_paths.metadata_path)
-    sequence_num_frames = json.loads(dataset_paths.metadata_path.read_text())['num_frames']
+    if sequence not in NUM_FRAMES_PER_ACTOR[actor]:
+        raise RuntimeError(f"{actor}{sequence} is not publicly available!")
+
+    sequence_num_frames = NUM_FRAMES_PER_ACTOR[actor][sequence]
 
     if frame_stop == 0:
         frame_stop = sequence_num_frames
