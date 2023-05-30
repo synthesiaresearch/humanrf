@@ -25,6 +25,9 @@ pip3 install .
 # Install HumanRF package (method)
 cd ../humanrf
 pip3 install .
+
+# Add the installation folder to the PYTHONPATH
+export PYTHONPATH=$PYTHONPATH:/path/to/repo
 ```
 
 ## Usage
