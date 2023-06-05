@@ -77,7 +77,8 @@ The following datastructure is used to store the data:
         │   ├── occupancy_grid000000.npz
         │   ...
         ├── meshes.abc  # Per-frame meshes in the Alembic format.
-        └── scene.blend  # Blender scene file that visualizes meshes, cameras and rgb images.
+        ├── scene.blend  # Blender scene file that visualizes meshes, cameras and rgb images.
+        └── scene.json  # Scene description file that stores the number of frames.
 ```
 
 ## Data access and download

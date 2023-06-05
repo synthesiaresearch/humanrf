@@ -26,11 +26,13 @@ class VolumetricDatasetFilepaths:
     MESH_FILE = "meshes.abc.xz"
     BLEND_FILE = "scene.blend"
     LIGHT_ANNOTATIONS_CSV = "light_annotations.csv"
+    METADATA_JSON = "scene.json"
 
     def __init__(self, data_folder: Path) -> None:
         self.folder = data_folder
         self.calibration_path: Path = data_folder / VolumetricDatasetFilepaths.CALIBRATION_CSV
         self.aabbs_path: Path = data_folder.parent / VolumetricDatasetFilepaths.AABBS_CSV
+        self.metadata_path: Path = data_folder.parent / VolumetricDatasetFilepaths.METADATA_JSON
 
     def _get_pattern(self, pattern: str) -> str:
         return str(
@@ -60,6 +62,9 @@ class VolumetricDatasetFilepaths:
 
     def get_light_annotations_path(self) -> Path:
         return self.folder / VolumetricDatasetFilepaths.LIGHT_ANNOTATIONS_CSV
+
+    def get_metadata_path(self) -> Path:
+        return self.folder.parent / VolumetricDatasetFilepaths.METADATA_JSON
 
     def get_rgb_pattern(self) -> str:
         return self._get_pattern(pattern=VolumetricDatasetFilepaths.RGB_PATTERN)
