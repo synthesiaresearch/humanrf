@@ -87,8 +87,8 @@
           <a href="https://www.synthesia.io/"><img src="./assets/logo.png" width="170px" height="auto"></a>
         </div>
         <div class="navbar-end">
-            <a href="https://www.actors-hq.com/" class="navbar-item">
-              Dataset and challenge
+            <a href="#dataset" class="navbar-item">
+              Dataset
             </a>
             <a href="https://arxiv.org/abs/2305.06356" class="navbar-item">
               Paper
@@ -196,7 +196,7 @@
 
   <section class="section">
     <div class="container is-max-desktop">
-      <h2 class="title has-text-centered">Abstract</h2>
+      <h2 class="title has-text-centered" id="abstract">Abstract</h2>
       <p class="has-text-justified">
         Representing human performance at high-fidelity is an essential building block in diverse applications, such as
         film production, computer games or videoconferencing. To close the gap to production-level quality, we introduce
@@ -218,7 +218,7 @@
   </section>
   <section class="section">
     <div class="container is-max-desktop">
-      <h2 class="title has-text-centered">Video</h2>
+      <h2 class="title has-text-centered" id="video">Video</h2>
       <p style="text-align:center;">
       <iframe width="888" height="500" src="https://www.youtube.com/embed/OTnhiLLE7io" title="YouTube video player"
         frameborder="0"
@@ -229,7 +229,7 @@
   </section>
   <section class="section">
     <div class="container is-max-desktop">
-      <h2 class="title has-text-centered">Numerical Results</h2>
+      <h2 class="title has-text-centered"  id="results">Numerical Results</h2>
 
       <div>
         <canvas id="myChart"></canvas>
@@ -319,7 +319,7 @@
 
   <section class="section">
     <div class="container is-max-desktop">
-      <h2 class="title has-text-centered">Temporal Stability</h2>
+      <h2 class="title has-text-centered"  id="stability">Temporal Stability</h2>
       <video controls width="100%">
         <source src="./assets/temporal_stability.mp4" type="video/mp4">
       </video>
@@ -328,7 +328,7 @@
 
   <section class="section">
     <div class="container is-max-desktop">
-      <h2 class="title has-text-centered">Method</h2>
+      <h2 class="title has-text-centered"  id="method">Method</h2>
       <p class="has-text-justified">
         Given a set of input videos of a human actor in motion, captured in a multi-view camera setting, our goal is to
         enable temporally consistent, high-fidelity novel view synthesis. To that end, we learn a 4D scene
@@ -352,7 +352,7 @@
   </section>
   <section class="section">
     <div class="container is-max-desktop">
-      <h2 class="title has-text-centered">Dataset</h2>
+      <h2 class="title has-text-centered"  id="dataset">Dataset</h2>
       <p class="has-text-justified">
         Our dataset, ActorsHQ, consists of 39, 765 frames of dynamic human motion captured using multi-view video. We
         used a proprietary multi-camera capture system combined with an LED array
@@ -361,7 +361,10 @@
         figures below. The lighting system provides a programmable lighting array of 420 LEDs that are
         time-synchronized to the camera shutter. All cameras were set to a
         shutter speed of 650us to minimize motion blur for fast actions.
-      </p><br />
+      </p></br><p>
+      To request the dataset, please ask your group leader/PI to sign the downloaded <a href="https://drive.google.com/file/d/1QpZIhsUIWLAgQCXWXdj865gSNkjpCRrd/view?usp=sharing">release form</a>, scan it and email it to dataset@actors-hq.com along with their name, title and organisation.
+      We note that both the form and the email should come from the group leader that has a permanent position at the corresponding institution.
+      </p></br>
       <div class="columns is-centered">
         <div class="column is-half">
           <div class="img-zoom-container">
@@ -386,6 +389,9 @@
         </div>
       </div>
       <p>
+      The following model viewer shows examples of the per-frame mesh reconstructions for the actors in the dataset. It also visualizes the camera locations -- please note that you can adjust the viewpoint with the cursor.</br>
+      </p></br>
+      <p>
       <div><canvas id="model_viewer"
           style="border:#000000;border-radius: 10px; width:100%; height: 400px; border-width: 1px;"></canvas></div>
       </p>
@@ -404,7 +410,7 @@
   </section>
   <section class="section">
     <div class="container is-max-desktop">
-      <h2 class="title has-text-centered">Bibtex</h2>
+      <h2 class="title has-text-centered"  id="bibtex">Bibtex</h2>
       <pre>
 <code>
 @article{isik2023humanrf,
